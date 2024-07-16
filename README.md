@@ -16,14 +16,16 @@ To run this project locally, you will need Python installed on your system. Pyth
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/zomato-data-analysis-dashboard.git
+git clone https://github.com/pugazhenthi-l/Zomato-Data-Analysis-and-Visualization
 cd zomato-data-analysis-dashboard
+```
 
 ## Install dependencies
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
-Usage
+### Usage
+
 Once the application is running, you can navigate through different pages via the sidebar to explore various analyses:
 
 City-Based Analysis: Explore detailed visualizations focused on individual cities.
