@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
-# Reading the dataframe
+# Load the data
 df = pd.read_csv('zomato_data_updated.csv')
 
-# Streamlit app
 def main():
     st.title("City based data analysis")
 
@@ -18,6 +19,11 @@ def main():
     # Filter DataFrame based on user input
     filtered_df = df[(df['Country'] == selected_country) & (df['City'] == selected_city)]
 
+#   filtered_df = df[(df['Country'] == selected_country) & (df['City'] == selected_city)]
+
+    # Prepare data for plotting
+    cuisine_data = filtered_df.groupby('Cuisines').agg({'Votes': 'sum', 'Aggregate rating': 'mean'}).reset_index()
+
     # Famous Cuisine in the City
     st.plotly_chart(px.bar(
         filtered_df['Cuisines'].value_counts().nlargest(10).reset_index(),
@@ -28,14 +34,12 @@ def main():
         color_discrete_sequence=['#e03546']  # Setting bar color to red
     ))
 
-    
-    # Costlier Cuisine in the City
-    st.plotly_chart(px.line(filtered_df.groupby('Cuisines').agg({'Converted Cost (INR)': 'mean'}).reset_index(),
-                           x='Cuisines', y='Converted Cost (INR)', title='Costlier Cuisine in the City',
-                           color_discrete_sequence=['#e03546']))
+# Bar Chart for Average Cuisine Costs in the City
+    st.plotly_chart(px.bar(filtered_df.groupby('Cuisines').agg({'Converted Cost (INR)': 'mean'}).reset_index(),
+                       x='Cuisines', y='Converted Cost (INR)', title='Average Cuisine Costs in ' + selected_city,
+                       color='Converted Cost (INR)', color_continuous_scale=px.colors.sequential.Reds))
 
-    
-    # Rating Count in the City
+  # Rating Count in the City
     # Create figure with secondary y-axis
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -66,7 +70,6 @@ def main():
     # Display the figure/chart
     st.plotly_chart(fig)
 
-    
     # Prepare data for pie chart 
     delivery_counts = filtered_df['Has Online delivery'].value_counts().reset_index()
     delivery_counts.columns = ['Delivery Mode', 'Count']
