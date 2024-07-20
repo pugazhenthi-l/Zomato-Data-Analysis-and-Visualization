@@ -4,10 +4,10 @@ This project presents a Streamlit dashboard that visualizes data from Zomato, fo
 
 ## Project Structure
 
-- `Zomato_City_based_data_analysis.py`: Performs and visualizes the analysis based on individual cities.
-- `Zomato_City_comparison_in_India.py`: Compares various cities within India based on the Zomato data.
-- `Zomato_Country_based_data_analysis.py`: Conducts and displays analysis on a country-wide scale using Zomato's dataset.
-- `streamlit_app.py`: The main Streamlit app that integrates all the analyses into a single, navigable dashboard.
+- `City_analysis.py`: Performs and visualizes the analysis based on individual cities.
+- `City_comparison.py`: Compares various cities within India based on the Zomato data.
+- `Country_analysis.py`: Conducts and displays analysis on a country-wide scale using Zomato's dataset.
+- `main.py`: The main Streamlit app that integrates all the analyses into a single, navigable dashboard.
 
 ## Installation
 
