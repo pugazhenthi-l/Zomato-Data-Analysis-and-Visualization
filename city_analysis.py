@@ -28,17 +28,52 @@ def main():
         color_discrete_sequence=['#e03546']  # Setting bar color to red
     ))
 
+    
     # Costlier Cuisine in the City
     st.plotly_chart(px.line(filtered_df.groupby('Cuisines').agg({'Converted Cost (INR)': 'mean'}).reset_index(),
                            x='Cuisines', y='Converted Cost (INR)', title='Costlier Cuisine in the City',
                            color_discrete_sequence=['#e03546']))
 
+    
     # Rating Count in the City
-    st.plotly_chart(px.bar(filtered_df, x='Cuisines', y='Votes', title='Rating Count in the City', color='Aggregate rating', color_discrete_sequence=['#e03546']))
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-    # Pie Chart Online Delivery vs Dine-In
-    st.plotly_chart(px.pie(filtered_df, names='Has Online delivery', title='Delivery Mode in the City',
-                           color='Has Online delivery', color_discrete_map={'Yes': '#e03546', 'No': '#21394f'}))
+    # Add bar for Votes
+    fig.add_trace(
+        go.Bar(x=cuisine_data['Cuisines'], y=cuisine_data['Votes'], name='Total Votes', marker_color='#e03546'),
+        secondary_y=False,
+    )
+
+    # Add line for Aggregate Rating
+    fig.add_trace(
+        go.Scatter(x=cuisine_data['Cuisines'], y=cuisine_data['Aggregate rating'], name='Aggregate Rating', marker_color='#eeeeee'),
+        secondary_y=True,
+    )
+
+    # Add figure title
+    fig.update_layout(
+        title_text=f"Rating Count and Aggregate Rating for Each Cuisine in {selected_city}"
+    )
+
+    # Set x-axis title
+    fig.update_xaxes(title_text="Cuisines")
+
+    # Set y-axes titles
+    fig.update_yaxes(title_text="<b>Primary</b> Total Votes", secondary_y=False)
+    fig.update_yaxes(title_text="<b>Secondary</b> Aggregate Rating", secondary_y=True)
+
+    # Display the figure/chart
+    st.plotly_chart(fig)
+
+    
+    # Prepare data for pie chart 
+    delivery_counts = filtered_df['Has Online delivery'].value_counts().reset_index()
+    delivery_counts.columns = ['Delivery Mode', 'Count']
+    pie_fig = px.pie(delivery_counts, values='Count', names='Delivery Mode', title='Online Delivery vs Dine-In in ' + selected_city,
+                         color='Delivery Mode', color_discrete_map={'Yes': '#e03546', 'No': '#21394f'})
+    
+    st.plotly_chart(pie_fig)
 
 if __name__ == '__main__':
     main()
