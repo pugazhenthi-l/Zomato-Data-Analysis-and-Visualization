@@ -34,6 +34,12 @@ def main():
         color_discrete_sequence=['#e03546']  # Setting bar color to red
     ))
 
+    # # Find the most costly cuisine
+    # most_costly_cuisine = filtered_df.groupby('Cuisines')['Converted Cost (INR)'].mean().idxmax()
+
+    # st.write(f'The most costly cuisine in {selected_country} is "{most_costly_cuisine}"')
+
+
 # Bar Chart for Average Cuisine Costs in the City
     st.plotly_chart(px.bar(filtered_df.groupby('Cuisines').agg({'Converted Cost (INR)': 'mean'}).reset_index(),
                        x='Cuisines', y='Converted Cost (INR)', title='Average Cuisine Costs in ' + selected_city,
