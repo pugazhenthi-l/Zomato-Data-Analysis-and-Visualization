@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Load the data from the Excel file that contains Indian city data
-df = pd.read_excel('zomato_data_updated.xlsx')
+# Load the data from the csv file that contains Indian city data
+df = pd.read_csv('zomato_data_updated.csv')
 df_india = df[df['Country'] == 'India']  # Filter to only include data from India
 
 def main():
