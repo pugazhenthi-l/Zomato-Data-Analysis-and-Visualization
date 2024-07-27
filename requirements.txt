@@ -6,3 +6,4 @@ seaborn
 plotly==5.8.0
 numpy==1.23.1
 openpyxl==3.0.10
+dash
